@@ -13,6 +13,17 @@ app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 20
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+const dateMiddleware = (req) => {
+  let _date = req?.url.replace('/api/', '');
+  
+  const timestamp = {
+    unix : Math.floor(new Date(_date).getTime() / 1000),
+    utc : new Date(_date).toUTCString(),
+  }
+  
+  return timestamp
+}
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
@@ -25,7 +36,8 @@ app.get("/api", function (req, res) {
 });
 
 app.get("/api/:date", function (req, res) {
-  res.json({time: 'hello TIME'});
+  const timestamp = dateMiddleware(req);
+  res.json(timestamp);
 });
 
 
