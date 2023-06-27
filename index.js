@@ -14,9 +14,9 @@ app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 20
 app.use(express.static('public'));
 
 const dateMiddleware = (req) => {
-  let _date = req?.url.replace('/api/', '');
+  let _date = req?.params?.date;
   let timestamp = {}
-  if(Number(Date.parse(_date)) > 0){
+  if(Number(Date.parse(_date)) > 0 && _date){
     timestamp = {
       unix : Math.floor(new Date(_date).getTime()),
       utc : new Date(_date).toUTCString(),
