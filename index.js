@@ -23,10 +23,14 @@ const dateMiddleware = (req) => {
       utc : new Date(_date).toUTCString(),
     }
   }else if (new Date(Number(_date) * 1000).getTime() > 0){
-    console.log(new Date(Number(_date) * 1000))
     timestamp = {
-      unix : _date,
+      unix : Number(_date),
       utc : new Date(Number(_date) * 1000).toUTCString(),
+    }
+  }else if (_date === ''){
+    timestamp = {
+      unix : Math.floor(Date.now().getTime() / 1000),
+      utc : Date.now().toUTCString(),
     }
   }else{
     timestamp = { error : "Invalid Date" }
