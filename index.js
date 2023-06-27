@@ -15,10 +15,21 @@ app.use(express.static('public'));
 
 const dateMiddleware = (req) => {
   let _date = req?.url.replace('/api/', '');
+  let timestamp = {}
   
-  const timestamp = {
-    unix : Math.floor(new Date(_date).getTime() / 1000),
-    utc : new Date(_date).toUTCString(),
+  if(Date.parse(_date)){
+    timestamp = {
+      unix : Math.floor(new Date(_date).getTime() / 1000),
+      utc : new Date(_date).toUTCString(),
+    }
+  }else if (new Date(Number(_date) * 1000).getTime() > 0){
+    console.log(new Date(Number(_date) * 1000))
+    timestamp = {
+      unix : _date,
+      utc : new Date(Number(_date) * 1000).toUTCString(),
+    }
+  }else{
+    timestamp = { error : "Invalid Date" }
   }
   
   return timestamp
