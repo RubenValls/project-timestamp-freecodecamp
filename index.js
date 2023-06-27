@@ -18,7 +18,7 @@ const dateMiddleware = (req) => {
   let timestamp = {}
   if(Date.parse(_date)){
     timestamp = {
-      unix : Math.floor(new Date(_date).getTime() / 1000),
+      unix : Math.floor(new Date(_date).getTime()),
       utc : new Date(_date).toUTCString(),
     }
   }else if (new Date(Number(_date)).getTime() > 0){
