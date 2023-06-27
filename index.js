@@ -46,7 +46,7 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/", function (req, res) {
   const timestamp = {
-    unix : Math.floor(new Date().getTime() / 1000),
+    unix : Math.floor(new Date().getTime()),
     utc : new Date().toUTCString(),
   }
   res.json(timestamp);
