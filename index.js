@@ -16,21 +16,15 @@ app.use(express.static('public'));
 const dateMiddleware = (req) => {
   let _date = req?.url.replace('/api/', '');
   let timestamp = {}
-  
   if(Date.parse(_date)){
     timestamp = {
       unix : Math.floor(new Date(_date).getTime() / 1000),
       utc : new Date(_date).toUTCString(),
     }
-  }else if (new Date(Number(_date) * 1000).getTime() > 0){
+  }else if (new Date(Number(_date)).getTime() > 0){
     timestamp = {
       unix : Number(_date),
-      utc : new Date(Number(_date) * 1000).toUTCString(),
-    }
-  }else if (_date === ''){
-    timestamp = {
-      unix : Math.floor(Date.now().getTime() / 1000),
-      utc : Date.now().toUTCString(),
+      utc : new Date(Number(_date)).toUTCString(),
     }
   }else{
     timestamp = { error : "Invalid Date" }
@@ -46,8 +40,16 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get("/api", function (req, res) {
+app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
+});
+
+app.get("/api/", function (req, res) {
+  const timestamp = {
+    unix : Math.floor(new Date().getTime() / 1000),
+    utc : new Date().toUTCString(),
+  }
+  res.json(timestamp);
 });
 
 app.get("/api/:date", function (req, res) {
