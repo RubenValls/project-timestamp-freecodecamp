@@ -16,7 +16,7 @@ app.use(express.static('public'));
 const dateMiddleware = (req) => {
   let _date = req?.url.replace('/api/', '');
   let timestamp = {}
-  if(Date.parse(_date)){
+  if(Number(Date.parse(_date)) > 0){
     timestamp = {
       unix : Math.floor(new Date(_date).getTime()),
       utc : new Date(_date).toUTCString(),
@@ -52,7 +52,7 @@ app.get("/api/", function (req, res) {
   res.json(timestamp);
 });
 
-app.get("/api/:date", function (req, res) {
+app.get("/api/:date?", function (req, res) {
   const timestamp = dateMiddleware(req);
   res.json(timestamp);
 });
